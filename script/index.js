@@ -17,7 +17,6 @@ const removeActive = () => {
 const loadLevelWord = (id) => {
     manageSpinner(true);
     const url = `https://openapi.programming-hero.com/api/level/${id}`;
-    // console.log(url);
     fetch(url)
         .then(res => res.json())
         .then((data) => {
@@ -50,7 +49,6 @@ const loadWordDetail = async (id) => {
     const url = `https://openapi.programming-hero.com/api/word/${id}`;
     const res = await fetch(url);
     const details = await res.json();
-    console.log(details);
     displayWordDetails(details.data);
 }
 
@@ -109,8 +107,8 @@ const displayLevelWord = (words) => {
         <div class="text-2xl font-medium font-bangla">"${word.meaning ? word.meaning : "অর্থ পাওয়া যায়নি।"}/${word.pronunciation ? word.pronunciation : "pronunciation পাওয়া যায়নি।"}"</div>
             <div class="flex justify-between items-center">
                 <button onclick="loadWordDetail(${word.id})" class="btn bg-blue-100 hover:bg-blue-300"><i class="fa-solid fa-circle-info"></i></button>
-                <button class="btn bg-blue-100 hover:bg-blue-300"><i class="fa-solid fa-volume-high"></i></button>
-            </div>
+                <button onclick="pronounceWord('${word.word}')" class="btn bg-blue-100 hover:bg-blue-300"><i class="fa-solid fa-volume-high"></i></button>
+            </div >
       </div >
     `;
 
@@ -136,3 +134,23 @@ lesson - ${lesson.level_no}</button >
     }
 }
 
+document.getElementById("btn-search").addEventListener("click", () => {
+    removeActive();
+    const input = document.getElementById("input-search");
+    const searchValue = input.value.trim().toLowerCase();
+
+    fetch("https://openapi.programming-hero.com/api/words/all")
+        .then(res => res.json())
+        .then(data => {
+            const allWords = data.data;
+            const filterWords = allWords.filter(word => word.word.toLowerCase().includes(searchValue));
+            displayLevelWord(filterWords);
+        }
+        );
+})
+
+function pronounceWord(word) {
+    const utterance = new SpeechSynthesisUtterance(word);
+    utterance.lang = "en-EN"; // English
+    window.speechSynthesis.speak(utterance);
+}

@@ -116,8 +116,24 @@
       </div>
     </section>
 
-    <section id="spinner" class="flex justify-center items-center py-8 hidden">
-      <span class="loading loading-spinner text-primary"></span>
+
+    <section class="flex justify-center ">
+      <div class="join">
+        <div>
+          <label class="input validator join-item">
+
+            <input id="input-search" type="text" placeholder="Search word" required />
+          </label>
+        </div>
+        <button id="btn-search" class="btn btn-primary join-item">Search</button>
+      </div>
+    </section>
+
+
+    <section id="spinner" class="hidden">
+      <div class="flex justify-center items-center py-8 "><span class="loading loading-spinner text-primary"></span>
+      </div>
+
     </section>
 
     <section id="word-container" class="bg-gray-200 p-5 w-11/12 mx-auto my-8 grid grid-cols-3 gap-4">
